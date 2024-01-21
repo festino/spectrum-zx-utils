@@ -1,0 +1,37 @@
+<head>
+</head>
+
+<body>
+    <img id="image_orig" src="./sample.png"></img>
+    <img id="image_edited" src="./sample.png"></img>
+    <canvas id="canvas" style="display: none;"></canvas>
+    <script type="text/javascript" src="js/pixel-reducing.js"></script>
+    <script type="text/javascript" src="js/spectrum-restrictions.js"></script>
+    <script type="text/javascript" src="js/pixel-blur.js"></script>
+    <script>
+        const orig = document.getElementById('image_orig');
+        const edited = document.getElementById('image_edited');
+        const canvas = document.getElementById('canvas');
+        let canvasContext = canvas.getContext('2d', { willReadFrequently: true });
+
+        async function blur(maxDist) {
+            canvas.width = orig.naturalWidth;
+            canvas.height = orig.naturalHeight;
+            canvasContext.drawImage(orig, 0, 0, orig.naturalWidth, orig.naturalHeight);
+            var imageData = canvasContext.getImageData(0, 0, orig.naturalWidth, orig.naturalHeight);
+            await new Promise(() =>
+                setTimeout(
+                    () => {
+                        let newImage = blurImage(imageData);
+                        canvasContext.putImageData(newImage, 0, 0);
+                        edited.src = canvas.toDataURL('image/png');
+                    },
+                    0
+                )
+            );
+        }
+
+        blur();
+
+    </script>
+</body>
