@@ -13,7 +13,7 @@ function blurImage(image) {
                     for (let dx = -1; dx <= 1; dx++) {
                         let dist = Math.abs(dx) + Math.abs(dy);
                         let coef = (dist == 0 ? 4.0 : dist == 1 ? 2.0 : 1.0) / 16.0;
-                        color += coef * getColor(image, i + dx, j + dy, k);
+                        color += coef * getColorComponent(image, i + dx, j + dy, k);
                     }
                 }
                 resImage.data[(j * resImage.width + i) * bytesPerPixel + k] = color
@@ -23,7 +23,7 @@ function blurImage(image) {
     return resImage;
 }
 
-function getColor(image, x, y, byteIndex) {
+function getColorComponent(image, x, y, byteIndex) {
     if (x < 0) x = image.width - 1;
     else if (x >= image.width) x = 0;
 
