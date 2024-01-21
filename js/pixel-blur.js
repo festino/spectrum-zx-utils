@@ -1,7 +1,7 @@
 function blurImage(image) {
     let bytesPerPixel = getBytesPerPixel(image);
     let resImage = new ImageData(
-        new Uint8Array(image.width * image.height * bytesPerPixel),
+        new Uint8ClampedArray(image.width * image.height * bytesPerPixel),
         image.width,
         image.height
     );

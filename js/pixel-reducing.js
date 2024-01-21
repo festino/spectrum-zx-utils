@@ -4,11 +4,11 @@ function downscaleImage(image, factor) {
     if (image.width % factor != 0) throw new Error(`width ${image.width} must be a multiple of ${factor}`);
     if (image.height % factor != 0) throw new Error(`height ${image.height} must be a multiple of ${factor}`);
     let bytesPerPixel = getBytesPerPixel(image);
-    let resImage = {
-        data: new Uint8Array((image.width / factor) * (image.height / factor) * bytesPerPixel),
-        width: image.width / factor,
-        height: image.height / factor
-    }
+    let resImage = new ImageData(
+        new Uint8ClampedArray((image.width / factor) * (image.height / factor) * bytesPerPixel),
+        image.width / factor,
+        image.height / factor
+    );
     for (let j = 0; j < resImage.height; j++) {
         for (let i = 0; i < resImage.width; i++) {
             for (let byteIndex = 0; byteIndex < bytesPerPixel; byteIndex++) {
@@ -22,11 +22,11 @@ function downscaleImage(image, factor) {
 
 function upscaleImage(image, factor) {
     let bytesPerPixel = getBytesPerPixel(image);
-    let resImage = {
-        data: new Uint8Array((image.width * factor) * (image.height * factor) * bytesPerPixel),
-        width: image.width * factor,
-        height: image.height * factor
-    }
+    let resImage = new ImageData(
+        new Uint8ClampedArray((image.width * factor) * (image.height * factor) * bytesPerPixel),
+        image.width * factor,
+        image.height * factor
+    );
     for (let j = 0; j < image.height; j++) {
         for (let i = 0; i < image.width; i++) {
             for (let byteIndex = 0; byteIndex < bytesPerPixel; byteIndex++) {
