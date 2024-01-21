@@ -11,7 +11,7 @@ function blurImage(image) {
                 let color = 0;
                 for (let dy = -1; dy <= 1; dy++) {
                     for (let dx = -1; dx <= 1; dx++) {
-                        let dist = abs(dx) + abs(dy);
+                        let dist = Math.abs(dx) + Math.abs(dy);
                         let coef = (dist == 0 ? 4.0 : dist == 1 ? 2.0 : 1.0) / 16.0;
                         color += coef * getColor(image, i + dx, j + dy, k);
                     }
