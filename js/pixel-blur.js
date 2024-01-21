@@ -16,7 +16,7 @@ function blurImage(image) {
                         color += coef * getColorComponent(image, i + dx, j + dy, k);
                     }
                 }
-                resImage.data[(j * resImage.width + i) * bytesPerPixel + k] = color
+                resImage.data[(j * resImage.width + i) * bytesPerPixel + k] = color;
             }
         }
     }
@@ -24,11 +24,11 @@ function blurImage(image) {
 }
 
 function getColorComponent(image, x, y, byteIndex) {
-    if (x < 0) x = image.width - 1;
-    else if (x >= image.width) x = 0;
+    if (x < 0) x = -x;
+    else if (x >= image.width) x = image.width - (x - image.width + 2);
 
-    if (y < 0) y = image.height - 1;
-    else if (y >= image.height) y = 0;
+    if (y < 0) y = -y;
+    else if (y >= image.height) y = image.height - (y - image.height + 2);
 
     let bytesPerPixel = getBytesPerPixel(image);
     return image.data[(y * image.width + x) * bytesPerPixel + byteIndex];
