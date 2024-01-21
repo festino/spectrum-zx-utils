@@ -23,6 +23,7 @@
                 setTimeout(
                     () => {
                         let pixelSize = getPixelSize(imageData);
+                        console.log(`Pixel size: ${pixelSize}`);
                         let downscaledImage = downscaleImage(imageData, pixelSize);
                         // TODO check restrictions
                         let blurredImage = blurImage(downscaledImage);
