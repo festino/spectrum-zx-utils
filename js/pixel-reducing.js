@@ -56,6 +56,7 @@ function getPixelSize(image) {
                 continue;
             }
             if (length > 0) {
+                console.log("gcd before " + gcd);
                 gcd = getGCD(length, gcd);
                 if (gcd == 1) return 1;
             }
@@ -74,6 +75,7 @@ function getPixelSize(image) {
                 continue;
             }
             if (length > 0) {
+                console.log("gcd before " + gcd);
                 gcd = getGCD(length, gcd);
                 if (gcd == 1) return 1;
             }
