@@ -22,7 +22,11 @@
             await new Promise(() =>
                 setTimeout(
                     () => {
-                        let newImage = blurImage(imageData);
+                        let pixelSize = getPixelSize(imageData);
+                        let downscaledImage = downscaleImage(imageData, pixelSize);
+                        // TODO check restrictions
+                        let blurredImage = blurImage(downscaledImage);
+                        let newImage = upscaleImage(blurredImage, pixelSize);
                         canvasContext.putImageData(newImage, 0, 0);
                         edited.src = canvas.toDataURL('image/png');
                     },
