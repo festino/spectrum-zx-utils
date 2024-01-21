@@ -19,8 +19,8 @@ function blurImage(image) {
                 resImage.data[(j * resImage.width + i) * bytesPerPixel + k] = color
             }
         }
-        return resImage;
     }
+    return resImage;
 }
 
 function getColor(image, x, y, byteIndex) {
