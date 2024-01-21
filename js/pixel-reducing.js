@@ -3,17 +3,17 @@
 function downscaleImage(image, factor) {
     if (image.width % factor != 0) throw new Error(`width ${image.width} must be a multiple of ${factor}`);
     if (image.height % factor != 0) throw new Error(`height ${image.height} must be a multiple of ${factor}`);
-    resImage = {
-        data: new Uint8Array((image.width / factor) * (image.height / factor) * image.bytesPerPixel),
+    let bytesPerPixel = getBytesPerPixel(image);
+    let resImage = {
+        data: new Uint8Array((image.width / factor) * (image.height / factor) * bytesPerPixel),
         width: image.width / factor,
-        height: image.height / factor,
-        bytesPerPixel: image.bytesPerPixel
+        height: image.height / factor
     }
     for (let j = 0; j < resImage.height; j++) {
         for (let i = 0; i < resImage.width; i++) {
-            for (let byteIndex = 0; byteIndex < resImage.bytesPerPixel; byteIndex++) {
-                var color = image.data[(j * image.width * factor + i * factor) * image.bytesPerPixel + byteIndex];
-                resImage.data[(j * resImage.width + i) * resImage.bytesPerPixel + byteIndex] = color;
+            for (let byteIndex = 0; byteIndex < bytesPerPixel; byteIndex++) {
+                var color = image.data[(j * image.width * factor + i * factor) * bytesPerPixel + byteIndex];
+                resImage.data[(j * resImage.width + i) * bytesPerPixel + byteIndex] = color;
             }
         }
     }
@@ -21,19 +21,19 @@ function downscaleImage(image, factor) {
 }
 
 function upscaleImage(image, factor) {
-    resImage = {
-        data: new Uint8Array((image.width * factor) * (image.height * factor) * image.bytesPerPixel),
+    let bytesPerPixel = getBytesPerPixel(image);
+    let resImage = {
+        data: new Uint8Array((image.width * factor) * (image.height * factor) * bytesPerPixel),
         width: image.width * factor,
-        height: image.height * factor,
-        bytesPerPixel: image.bytesPerPixel
+        height: image.height * factor
     }
     for (let j = 0; j < image.height; j++) {
         for (let i = 0; i < image.width; i++) {
-            for (let byteIndex = 0; byteIndex < image.bytesPerPixel; byteIndex++) {
-                var color = image.data[(j * image.width + i) * image.bytesPerPixel + byteIndex];
+            for (let byteIndex = 0; byteIndex < bytesPerPixel; byteIndex++) {
+                var color = image.data[(j * image.width + i) * bytesPerPixel + byteIndex];
                 for (let dy = 0; dy < factor; dy++) {
                     for (let dx = 0; dx < factor; dx++) {
-                        resImage.data[((j * factor + dy) * resImage.width + i * factor + dx) * resImage.bytesPerPixel + byteIndex] = color;
+                        resImage.data[((j * factor + dy) * resImage.width + i * factor + dx) * bytesPerPixel + byteIndex] = color;
                     }
                 }
             }
@@ -95,9 +95,15 @@ function getGCD(a, b) {
 }
 
 function getColor(image, x, y) {
+    let bytesPerPixel = getBytesPerPixel(image);
     let color = 0;
-    for (let byteIndex = 0; byteIndex < image.bytesPerPixel; byteIndex++)
-        color += image.data[(y * image.width + x) * image.bytesPerPixel + byteIndex] << (8 * (image.bytesPerPixel - 1 - byteIndex));
+    for (let byteIndex = 0; byteIndex < bytesPerPixel; byteIndex++) {
+        color += image.data[(y * image.width + x) * bytesPerPixel + byteIndex] << (8 * (bytesPerPixel - 1 - byteIndex));
+    }
 
     return color;
+}
+
+function getBytesPerPixel(image) {
+    return image.data.length / image.width / image.height;
 }
