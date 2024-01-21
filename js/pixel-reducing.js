@@ -56,11 +56,9 @@ function getPixelSize(image) {
                 continue;
             }
             if (length > 0) {
-                console.log("gcd before " + gcd);
                 gcd = getGCD(length, gcd);
                 if (gcd == 1) return 1;
             }
-            console.log(`colors ${color} ${newColor}, length ${length}`);
             color = newColor;
             length = 1;
         }
@@ -76,7 +74,6 @@ function getPixelSize(image) {
                 continue;
             }
             if (length > 0) {
-                console.log("gcd before " + gcd);
                 gcd = getGCD(length, gcd);
                 if (gcd == 1) return 1;
             }
@@ -101,9 +98,7 @@ function getColor(image, x, y) {
     let bytesPerPixel = getBytesPerPixel(image);
     let color = 0;
     for (let byteIndex = 0; byteIndex < bytesPerPixel; byteIndex++) {
-        let colorBefore = color;
         color += image.data[(y * image.width + x) * bytesPerPixel + byteIndex] << (8 * (bytesPerPixel - 1 - byteIndex));
-        console.log(`${colorBefore} -> ${color}`);
     }
 
     return color;
