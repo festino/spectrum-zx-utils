@@ -51,7 +51,7 @@ function getPixelSize(image) {
         let length = 0;
         for (let i = 0; i < image.width; i++) {
             var newColor = getColor(image, i, j);
-            if (length > 0 && color == newColor) {
+            if (length > 0 && color === newColor) {
                 length++;
                 continue;
             }
@@ -70,7 +70,7 @@ function getPixelSize(image) {
         let length = 0;
         for (let j = 0; j < image.height; j++) {
             var newColor = getColor(image, i, j);
-            if (length > 0 && color == newColor) {
+            if (length > 0 && color === newColor) {
                 length++;
                 continue;
             }
